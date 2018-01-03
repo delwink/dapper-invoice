@@ -18,9 +18,14 @@
 
 \RequirePackage{eurosym}
 
+\newboolean{csymafter}
+\setboolean{csymafter}{false}
 \ifthenelse{\equal{\dapper@currency}{dollar}}{\newcommand{\currencysym}{\$}}{}
 \ifthenelse{\equal{\dapper@currency}{euro}}{\newcommand{\currencysym}{\euro}}{}
 \ifthenelse{\equal{\dapper@currency}{pound}}{\newcommand{\currencysym}{\textsterling}}{}
+\ifthenelse{\equal{\dapper@currency}{btc}}{\newcommand{\currencysym}{BTC} \setboolean{csymafter}{true}}{}
+\ifthenelse{\equal{\dapper@currency}{ltc}}{\newcommand{\currencysym}{LTC} \setboolean{csymafter}{true}}{}
+\ifthenelse{\equal{\dapper@currency}{doge}}{\newcommand{\currencysym}{DOGE} \setboolean{csymafter}{true}}{}
 
 % Set the standard geometry
 \RequirePackage[hmargin=.75in,vmargin=1in]{geometry}
@@ -129,42 +134,16 @@
 
 \newcounter{colskipcount}
 
-\newenvironment{hoursItemization}{
+\newenvironment{qtyItemization}{
     \setcounter{colskipcount}{5}
     \setlength\LTleft{0pt}
     \setlength\LTright{0pt}
-    \begin{longtable}{c @{\hspace{1.5em}} p{.6\textwidth} r @{} l r r}
+    \begin{longtable}{c p{.5\textwidth} r @{} l r r}
     \hline
     \noalign{\smallskip}
     {\itemizationHeaderStyle Date} &
     {\itemizationHeaderStyle Description} &
-    \multicolumn{2}{l}{\itemizationHeaderStyle Hours} &
-    {\itemizationHeaderStyle Rate} &
-    {\itemizationHeaderStyle Amount}
-    \\
-    \noalign{\smallskip}
-    \hline
-    \noalign{\bigskip}
-    \endhead
-    \noalign{\bigskip}
-    \hline
-    \endfoot
-    \endlastfoot
-}{
-    \end{longtable}
-}
-
-\newenvironment{hoursItemizationWithProject}{
-    \setcounter{colskipcount}{6}
-    \setlength\LTleft{0pt}
-    \setlength\LTright{0pt}
-    \begin{longtable}{c c @{\hspace{1.5em}} p{.5\textwidth} r @{} l r r}
-    \hline
-    \noalign{\smallskip}
-    {\itemizationHeaderStyle Date} &
-    {\itemizationHeaderStyle Project} &
-    {\itemizationHeaderStyle Description} &
-    \multicolumn{2}{l}{\itemizationHeaderStyle Hours} &
+    \multicolumn{2}{l}{\itemizationHeaderStyle Qty/Hrs} &
     {\itemizationHeaderStyle Rate} &
     {\itemizationHeaderStyle Amount}
     \\
@@ -217,13 +196,11 @@
 
 \newcommand{\lineitem}[4]{
     {\itemizationRowStyle #1} &
-    \begin{minipage}[t]{.6\textwidth}
-        \begin{itemize}[leftmargin=0pt, labelsep=1pt, itemsep=0pt] \itemizationRowStyle #4 \end{itemize}
-    \end{minipage} &
+    {\itemizationRowStyle #4} &
     {\itemizationRowStyle \@formatHoursLeft{#2}} &
     {\itemizationRowStyle \@formatHoursRight{#2}} &
-    {\itemizationRowStyle \currencysym#3} &
-    {\itemizationRowStyle \currencysym\calcamount{#2}{#3}}
+    {\itemizationRowStyle \formatcurrency{#3}} &
+    {\itemizationRowStyle \calcamount{#2}{#3}}
     \\
     \noalign{\medskip}
 }
@@ -236,8 +213,8 @@
     \end{minipage} &
     {\itemizationRowStyle \@formatHoursLeft{#2}} &
     {\itemizationRowStyle \@formatHoursRight{#2}} &
-    {\itemizationRowStyle \currencysym#3} &
-    {\itemizationRowStyle \currencysym\calcamount{#2}{#3}}
+    {\itemizationRowStyle \formatcurrency{#3}} &
+    {\itemizationRowStyle \calcamount{#2}{#3}}
     \\
     \noalign{\medskip}
 }
@@ -261,8 +238,14 @@
     }
 }
 
-\newcommand*{\formatcurrency}[1]{%
-    \num[group-separator={,}, group-minimum-digits=3, round-mode=places, round-precision=2]{#1}%
+\newcommand*{\formatnum}[1]{%
+    \num[group-separator={,}, group-minimum-digits=3, round-mode=places, round-precision=2]{#1}
+}
+
+\newcommand*{\formatcurrency}[1]{
+  \ifthenelse{\boolean{csymafter}}
+             {\formatnum{#1}~\currencysym}
+             {\currencysym\formatnum{#1}}
 }
 
 % Implementation by Werner (http://tex.stackexchange.com/a/176815/35707)
