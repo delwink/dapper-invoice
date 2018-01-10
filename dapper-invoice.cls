@@ -89,7 +89,7 @@
 }
 
 \newcommand*{\twocolumnlayout}[2]{
-    \begin{tabular}[t]{@{} p{.5\linewidth} @{} p{.5\linewidth} @{}} #1 & #2 \end{tabular}
+    \begin{tabular}[t]{@{} p{.6\linewidth} @{} p{.5\linewidth} @{}} #1 & #2 \end{tabular}
 }
 
 \sodef\invoiceSpacing{}{.15em}{.4em}{.4em}
