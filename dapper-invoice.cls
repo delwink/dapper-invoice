@@ -216,20 +216,6 @@
     \noalign{\medskip}
 }
 
-\newcommand{\lineitemp}[5]{
-    {\itemizationRowStyle #1} &
-    {\itemizationRowStyle #4} &
-    \begin{minipage}[t]{0.5\textwidth}
-        \begin{itemize}[leftmargin=0pt, labelsep=1pt, itemsep=0pt] \itemizationRowStyle #5 \end{itemize}
-    \end{minipage} &
-    {\itemizationRowStyle \@formatHoursLeft{#2}} &
-    {\itemizationRowStyle \@formatHoursRight{#2}} &
-    {\itemizationRowStyle \formatcurrency{#3}} &
-    {\itemizationRowStyle \calcamount{#2}{#3}}
-    \\
-    \noalign{\medskip}
-}
-
 \newcommand{\beginsummary}{
     \noalign{\bigskip}
     \hline
