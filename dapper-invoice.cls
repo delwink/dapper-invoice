@@ -143,7 +143,7 @@
     \noalign{\smallskip}
     {\itemizationHeaderStyle Date} &
     {\itemizationHeaderStyle Description} &
-    \multicolumn{2}{l}{\itemizationHeaderStyle Qty/Hrs} &
+    \multicolumn{2}{l}{\itemizationHeaderStyle Qty} &
     {\itemizationHeaderStyle Rate} &
     {\itemizationHeaderStyle Amount}
     \\
@@ -199,6 +199,17 @@
     {\itemizationRowStyle #4} &
     {\itemizationRowStyle \@formatHoursLeft{#2}} &
     {\itemizationRowStyle \@formatHoursRight{#2}} &
+    {\itemizationRowStyle \formatcurrency{#3}} &
+    {\itemizationRowStyle \calcamount{#2}{#3}}
+    \\
+    \noalign{\medskip}
+}
+
+\newcommand{\lineitemhrs}[4]{
+    {\itemizationRowStyle #1} &
+    {\itemizationRowStyle #4} &
+    {\itemizationRowStyle \@formatHoursLeft{#2}} &
+    {\itemizationRowStyle \@formatHoursRight{#2} Hrs} &
     {\itemizationRowStyle \formatcurrency{#3}} &
     {\itemizationRowStyle \calcamount{#2}{#3}}
     \\
